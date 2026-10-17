@@ -1,0 +1,18 @@
+{
+  "telegram": {
+    "bot_token": "8769762592:AAEuc3FqaVMISQOSEisXm0uS4MvbZ9f30HA",
+    "bot_username": "DarusIdeabot",
+    "chat_id": 5394742723
+  },
+  "email": {
+    "recipient": "dariushkhazaei629@gmail.com",
+    "sender": null,
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "smtp_password": null
+  },
+  "schedule": {
+    "time": "13:00",
+    "timezone": "Asia/Tehran"
+  }
+}
