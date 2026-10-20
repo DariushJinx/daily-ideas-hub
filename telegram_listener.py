@@ -6,6 +6,7 @@ from datetime import datetime
 import notifier
 import storage
 import weekly_digest
+import daily_curator
 
 IDEAS_CATALOG = {
     # Day 2 Ideas (2026-10-13)
@@ -99,18 +100,37 @@ def run_listener():
 
                         if cb_data.startswith("like_"):
                             idea_key = cb_data.replace("like_", "")
-                            idx = idea_key.rsplit("_", 1)[-1] if "_" in idea_key else idea_key
-                            info = IDEAS_CATALOG.get(idx, {
-                                "title": f"ایده {idea_key}",
-                                "type": "Micro-SaaS / Web Tool",
-                                "url": "https://www.producthunt.com",
-                                "summary": "ایده ذخیره‌شده از گزارش روزانه"
-                            })
+                            parts = idea_key.split("_")
+                            info = None
+                            
+                            # Check dynamic roster first
+                            if len(parts) >= 3 and parts[1].isdigit():
+                                d_num = int(parts[1])
+                                it_id = parts[2]
+                                if d_num in daily_curator.IDEAS_ROSTER:
+                                    for it in daily_curator.IDEAS_ROSTER[d_num]["items"]:
+                                        if it["id"] == it_id:
+                                            info = {
+                                                "title": it["name"],
+                                                "type": it["type"],
+                                                "url": it["ref_url"],
+                                                "summary": f"{it['desc']} | {it['potential']}"
+                                            }
+                                            break
+                            
+                            if not info:
+                                idx = parts[-1]
+                                info = IDEAS_CATALOG.get(idx, {
+                                    "title": f"ایده {idea_key}",
+                                    "type": "Micro-SaaS / Web Tool",
+                                    "url": "https://www.producthunt.com",
+                                    "summary": "ایده ذخیره‌شده از گزارش روزانه"
+                                })
 
                             success, msg = storage.add_to_shortlist(
                                 idea_id=idea_key,
                                 title=f"{info['title']} ({info.get('type', '')})",
-                                date_str=idea_key.rsplit("_", 1)[0] if "_" in idea_key else datetime.now().strftime("%Y-%m-%d"),
+                                date_str=parts[0] if parts else datetime.now().strftime("%Y-%m-%d"),
                                 summary=info["summary"],
                                 url=info["url"]
                             )

@@ -44,6 +44,24 @@
       "url": "https://orval.dev",
       "saved_at": "2026-10-13 16:53:31",
       "status": "shortlisted"
+    },
+    {
+      "id": "2026-10-17_1",
+      "title": "فرم‌ساز مدرن با اعلان در تلگرام و ایتا (Tally) (No-Code Form Builder)",
+      "date": "2026-10-17",
+      "summary": "فرم‌ساز مدرن با نوتیفیکیشن تلگرام برای ادمین‌ها | ۶۰۰k کاربر",
+      "url": "https://tally.so",
+      "saved_at": "2026-10-17 16:39:38",
+      "status": "shortlisted"
+    },
+    {
+      "id": "2026-10-17_2",
+      "title": "سامانه پایش آپ‌تایم و درگاه پرداخت بانکی (BetterStack) (DevOps Monitoring SaaS)",
+      "date": "2026-10-17",
+      "summary": "پایش ۶۰ ثانیه‌ای سرور و درگاه پرداخت با تماس و پیامک | ۲M سایت",
+      "url": "https://betterstack.com",
+      "saved_at": "2026-10-17 16:41:19",
+      "status": "shortlisted"
     }
   ],
   "in_progress": [],

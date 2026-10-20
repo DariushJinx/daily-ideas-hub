@@ -2,8 +2,10 @@ name: Daily Business Ideas Dispatcher
 
 on:
   schedule:
-    # 09:30 UTC = 13:00 Tehran Time (UTC+3:30)
-    - cron: '30 9 * * *'
+    # 09:17 UTC = 12:47 Tehran Time (avoiding top-of-hour GitHub queue congestion)
+    - cron: '17 9 * * *'
+    # 09:47 UTC = 13:17 Tehran Time (backup trigger)
+    - cron: '47 9 * * *'
   workflow_dispatch:
 
 jobs:
