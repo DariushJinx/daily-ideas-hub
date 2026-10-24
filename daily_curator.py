@@ -5,14 +5,22 @@ if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
 import json
 from datetime import datetime
 import notifier
+import weekly_digest
 
-# Database of curated, vetted ideas for each day of the sprint
+ANCHOR_DATE = datetime(2026, 10, 16)
+SENT_TRACKER_PATH = os.path.join(os.path.dirname(__file__), "sent_ideas.json")
+
+# Complete Catalog of Vetted, Zero-Capital Ideas tailored for Backend/Full-Stack Developers
 IDEAS_ROSTER = {
+    # ─── WEEK 1 (Days 1 to 6) ──────────────────────────────────────────────────
     1: {
         "title": "ایده‌های روز اول (E-commerce & Programmatic Tools)",
+        "week": 1,
+        "day_of_week": 1,
         "items": [
             {
                 "id": "1",
+                "slug": "digikala-basalam-analyzer",
                 "name": "اکستنشن کروم تحلیل هوشمند دیجی‌کالا و باسلام",
                 "type": "ابزار تحلیلی فروشندگان مارکت‌پلیس (B2B Chrome Extension)",
                 "desc": "افزونه‌ای که روی صفحه محصول در دیجی‌کالا یا باسلام، تخمین تعداد فروش ماهانه، نمودار تاریخچه قیمت، تعداد رقبا و سودآور بودن فروش آن کالا را نمایش می‌دهد.",
@@ -28,6 +36,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "2",
+                "slug": "programmatic-seo-calculators",
                 "name": "وب‌سایت ابزارهای محاسباتی سئو-محور (Programmatic SEO)",
                 "type": "پلتفرم میکرو-ابزارهای وب (B2C Web Micro-Tools)",
                 "desc": "وب‌سایتی شامل ده‌ها ماشین‌حساب تک‌کاره (محاسبه حباب طلا، سنوات، کمیسیون املاک، وام) که به صورت خودکار برای کوئری‌های پرجستجوی گوگل ساخته شده و ترافیک ارگانیک با درآمد تبلیغاتی ایجاد می‌کند.",
@@ -43,6 +52,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "3",
+                "slug": "messaging-order-automation",
                 "name": "اکستنشن اتوماسیون سفارش‌ها در پیام‌رسان‌ها",
                 "type": "ابزار بهره‌وری و CRM آنلاین‌شاپ‌ها (Chrome Extension)",
                 "desc": "افزونه‌ای روی تلگرام وب، واتساپ وب، بله و ایتا برای ادمین‌های فروشگاهی جهت ارسال سریع پیام‌های آماده (شماره کارت، سایزبندی)، خروجی اکسل آدرس مشتریان برای پست و ارسال خودکار کد رهگیری مرسولات.",
@@ -60,9 +70,12 @@ IDEAS_ROSTER = {
     },
     2: {
         "title": "ایده‌های روز دوم (No-Code & Developer Monitoring)",
+        "week": 1,
+        "day_of_week": 2,
         "items": [
             {
                 "id": "1",
+                "slug": "telegram-eitaa-form-builder",
                 "name": "فرم‌ساز مدرن با اعلان لحظه‌ای در تلگرام و ایتا",
                 "type": "ابزار بدون کد / فرم‌ساز تعاملی (No-Code Form Builder)",
                 "desc": "ساخت آسان فرم‌های استخدام، ثبت سفارش یا نظرسنجی مدرن شبیه Typeform، با این تفاوت بزرگ که به محض ثبت پاسخ توسط مشتری، اطلاعات بدون نیاز به ایمیل در ۱ ثانیه به ربات تلگرام یا پیامک ادمین ارسال می‌شود.",
@@ -78,6 +91,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "2",
+                "slug": "uptime-payment-gateway-monitor",
                 "name": "سامانه پایش آپ‌تایم و درگاه پرداخت بانکی",
                 "type": "ابزار مانیتورینگ وب‌مسترها (DevOps Monitoring SaaS)",
                 "desc": "پایش ۶۰ ثانیه‌ای سلامت سرور، گواهی SSL و از همه مهم‌تر «درگاه پرداخت شاپرک/زرین‌پال» سایت‌های ایرانی. به محض هرگونه قطعی یا خطای درگاه، فوراً تماس صوتی تلفنی خودکار یا پیامک اضطراری به مدیر سایت می‌زند.",
@@ -93,6 +107,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "3",
+                "slug": "ai-tech-content-repurposer",
                 "name": "بازتولید هوشمند محتوای تخصصی تک برای لینکدین/تلگرام",
                 "type": "ابزار بازاریابی محتوای هوشمند (AI B2B Content SaaS)",
                 "desc": "ابزاری که پربحث‌ترین اخبار و پست‌های توییتر، ردیت و Hacker News را واکشی کرده و با هوش مصنوعی به پست‌های خواندنی فارسی با لحن تخصصی برای انتشار با یک کلیک در کانال‌های تلگرامی و لینکدین آماده می‌کند.",
@@ -110,9 +125,12 @@ IDEAS_ROSTER = {
     },
     3: {
         "title": "ایده‌های روز سوم (DevOps & Product Experience)",
+        "week": 1,
+        "day_of_week": 3,
         "items": [
             {
                 "id": "1",
+                "slug": "in-app-changelog-widget",
                 "name": "ویجت و صفحه اعلان تغییرات محصول (In-App Changelog)",
                 "type": "ابزار توسعه‌دهندگان و میکروسس (DevTools / B2B Micro-SaaS)",
                 "desc": "ویجت سبک و صفحه مدرن Changelog که توسعه‌دهندگان با قرار دادن یک تگ اسکریپت، فیچرهای جدید و رفع باگ‌ها را به صورت بج تعاملی درون برنامه به کاربران نشان می‌دهند.",
@@ -128,6 +146,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "2",
+                "slug": "dynamic-og-image-api",
                 "name": "وب‌سرویس تولید خودکار تصاویر داینامیک اشتراک‌گذاری (OG Image API)",
                 "type": "ابزار خودکارسازی مارکتینگ (API SaaS / Automated Visuals)",
                 "desc": "API سریعی که لینک مقاله یا محصول را گرفته و به صورت خودکار یک تصویر پیش‌نمایش حرفه‌ای (Open Graph Card) با لوگو و عنوان برای نمایش چشم‌نواز در تلگرام و توییتر می‌سازد.",
@@ -143,6 +162,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "3",
+                "slug": "telegram-db-backup-tool",
                 "name": "سامانه بک‌آپ‌گیری خودکار سرور روی فضای رایگان تلگرام",
                 "type": "ابزار دوآپس و زیرساخت (DevOps SaaS)",
                 "desc": "با یک دستور تک‌خطی روی سرور لینوکس نصب می‌شود و از دیتابیس‌های MySQL/Postgres بک‌آپ رمزنگاری‌شده (AES-256) گرفته و مستقیماً روی ربات تلگرام با فضای نامحدود رایگان ذخیره می‌کند.",
@@ -160,9 +180,12 @@ IDEAS_ROSTER = {
     },
     4: {
         "title": "ایده‌های روز چهارم (Developer Productivity & Invoicing)",
+        "week": 1,
+        "day_of_week": 4,
         "items": [
             {
                 "id": "1",
+                "slug": "swagger-interactive-docs",
                 "name": "سامانه داکیومنت تعاملی و مدرن API از روی Swagger (Scalar / Mintlify)",
                 "type": "ابزار توسعه‌دهندگان (DevTools Micro-SaaS)",
                 "desc": "جایگزین مدرن و فوق‌العاده سریع و شیک برای Swagger UI قدیمی؛ فقط لینک JSON سواگر را می‌گیرد و یک پرتال مستندات API فوق‌العاده زیبا با تم دارک، کدهای آماده cURL، Python، JS و کنسول تست آنلاین در ۱ ثانیه تحویل می‌دهد.",
@@ -178,6 +201,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "2",
+                "slug": "freelancer-invoice-pay-link",
                 "name": "پلتفرم فاکتور آنلاین و لینک پرداخت برای فریلنسرها (Invoice & Pay)",
                 "type": "فین‌تک فریلنسری و مشاغل مستقل (Fintech Micro-SaaS)",
                 "desc": "فریلنسرها و شرکت‌های کوچک در ۲ دقیقه پیش‌فاکتور شکیل می‌سازند که یک لینک پرداخت اینترنتی (متصل به زرین‌پال یا شماره کارت هوشمند) دارد. کارفرما آنلاین پرداخت می‌کند و پیامک تایید برای هر دو طرف ارسال می‌شود.",
@@ -193,6 +217,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "3",
+                "slug": "b2b-lead-scraper-maps",
                 "name": "استخراج‌کننده هوشمند اطلاعات تماس و لید تجاری از گوگل‌مپ و اینستاگرام",
                 "type": "ابزار جذب سرنخ B2B (Lead Generation Scraper Tool)",
                 "desc": "ابزاری تحت وب که نام صنف (مثلاً: خشکبار، سالن زیبایی، قطعات خودرو) و شهر را می‌گیرد و در ۲ دقیقه اکسل تمیزی شامل شماره تماس، واتساپ، اینستاگرام و آدرس تمام کسب‌وکارهای ثبت‌شده را تحویل بازاریاب‌ها می‌دهد.",
@@ -210,9 +235,12 @@ IDEAS_ROSTER = {
     },
     5: {
         "title": "ایده‌های روز پنجم (Automation & Verification)",
+        "week": 1,
+        "day_of_week": 5,
         "items": [
             {
                 "id": "1",
+                "slug": "iranian-apps-webhook-ipaas",
                 "name": "پلتفرم وب‌هوک و اتوماسیون جریان‌کاری برای ابزارهای ایرانی (Zapier بومی)",
                 "type": "اتوماسیون بدون کد (Integration iPaaS)",
                 "desc": "اتصال خودکار سیستم‌های ایرانی؛ مثلاً وقتی در دیجی‌کالا یا باسلام سفارشی ثبت شد، همان ثانیه در پیام‌رسان بله پیام برود و فاکتور در نرم‌افزار حسابداری آنلاین صادر شود.",
@@ -228,6 +256,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "2",
+                "slug": "developer-software-license-manager",
                 "name": "سامانه مدیریت لایسنس و قفل نرم‌افزاری توسعه‌دهندگان (Keygen بومی)",
                 "type": "امنیت و زیرساخت نرم‌افزار (Licensing API SaaS)",
                 "desc": "برنامه‌نویسان با چند خط کد می‌توانند روی اسکریپت‌ها، بات‌های تلگرام، نرم‌افزارهای پایتون یا افزونه‌های خود لایسنس‌کی زمان‌دار بگذارند و از کپی غیرقانونی آن جلوگیری کنند.",
@@ -243,6 +272,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "3",
+                "slug": "customer-video-testimonial-collector",
                 "name": "پلتفرم جمع‌آوری و ویجت ویدیویی رضایت خریدار (Social Proof Video SaaS)",
                 "type": "ابزار افزایش نرخ تبدیل فروش (Marketing SaaS)",
                 "desc": "ارسال یک لینک اختصاصی به خریداران تا با یک دکمه ویدیوی کوتاه رضایت ضبط کنند و این ویدیوها با ویجت‌های فوق‌العاده جذاب روی سایت فروشگاه جهت افزایش اعتماد قرار گیرند.",
@@ -260,9 +290,12 @@ IDEAS_ROSTER = {
     },
     6: {
         "title": "ایده‌های روز ششم (Creator Economy & Marketplaces)",
+        "week": 1,
+        "day_of_week": 6,
         "items": [
             {
                 "id": "1",
+                "slug": "ugc-unboxing-marketplace",
                 "name": "مارکت‌پلیس ویدیوی تست محصول و آنباکسینگ UGC برای فروشگاه‌ها",
                 "type": "پلتفرم دوطرفه محتوا (Creator Marketplace)",
                 "desc": "برندها و فروشگاه‌های اینترنتی محصولاتشان را ثبت می‌کنند و خریداران عادی و کریتورهای خرد ویدیوهای واقعی آنباکسینگ و معرفی می‌سازند و حق‌الزحمه امن دریافت می‌کنند.",
@@ -278,6 +311,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "2",
+                "slug": "shetab-online-booking-calendar",
                 "name": "سامانه رزرو وقت مشاوره آنلاین با پرداخت شتاب قبل از جلسه",
                 "type": "سامانه زمان‌بندی و پرداخت (Scheduling SaaS)",
                 "desc": "مشاوران، وکلا، تراپیست‌ها و مربیان لینک تقویم خود را می‌گذارند؛ کاربر تایم خالی را انتخاب کرده، از درگاه بانکی پرداخت می‌کند و لینک جلسه گوگل‌میت و پیامک یادآوری خودکار صادر می‌شود.",
@@ -293,6 +327,7 @@ IDEAS_ROSTER = {
             },
             {
                 "id": "3",
+                "slug": "remote-tech-job-directory",
                 "name": "دایرکتوری تخصصی فرصت‌های شغلی ریموت و فریلنسری سئومحور",
                 "type": "دایرکتوری تخصصی پولی (Curated Job Board)",
                 "desc": "پلتفرمی که به صورت روزانه تمام فرصت‌های شغلی دورکاری واقعی، تسک‌های دلاری و استارتاپ‌ها را اسکرپ کرده و از کارفرماها برای ثبت آگهی ویژه و پین‌شده در بالای سایت هزینه می‌گیرد.",
@@ -307,26 +342,420 @@ IDEAS_ROSTER = {
                 "ice": "۲۷/۳۰"
             }
         ]
+    },
+
+    # ─── WEEK 2 (Days 8 to 13 / Idea Indices 7 to 12) ──────────────────────────
+    7: {
+        "title": "ایده‌های هفته دوم - روز اول (QA & Media Optimization)",
+        "week": 2,
+        "day_of_week": 1,
+        "items": [
+            {
+                "id": "1",
+                "slug": "visual-bug-reporter-widget",
+                "name": "سرویس بازخورد و ثبت اشکال تصویری در وب‌سایت‌ها (BugHerd / Marker.io)",
+                "type": "ابزار تضمین کیفیت وب و آژانس‌ها (QA & Visual Feedback SaaS)",
+                "desc": "ویجت سبک JS برای سایت‌های در حال ساخت؛ کارفرما یا تستر روی هر بخش سایت کلیک کرده و با اسکرین‌شات خودکار، لاگ کنسول و مشخصات مرورگر/رزولوشن کامنت می‌گذارد که مستقیماً به تسک ترلو، گیت‌هاب یا تلگرام منتقل می‌شود.",
+                "tech": "جاوااسکریپت (ویجت سبک کلاینت) + وب‌هوک پایتون FastAPI (ساخت در ۳ روز)",
+                "ref_url": "https://marker.io",
+                "ref_name": "Marker.io / BugHerd",
+                "traction": "+۱۰,۰۰۰ آژانس فعال در دنیا | ماهانه +۱۵۰ هزار دلار درآمد",
+                "revenue": "+۲ میلیون دلار سالانه",
+                "market_ir": "شرکت‌های طراحی وب، آژانس‌های دیجیتال و فریلنسرهایی که از چت‌های نامنظم مشتریان در واتساپ کلافه‌اند",
+                "growth": "اشتراک دمو در گروه‌های طراحان وردپرس با آفر تست رایگان ۱ ماهه",
+                "potential": "۴۰ آژانس × ۱۹۰ هزارتومان = ۷.۶ تا ۱۵ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            },
+            {
+                "id": "2",
+                "slug": "smart-image-cdn-resizer",
+                "name": "پلتفرم فشرده‌سازی و تبدیل هوشمند تصاویر در لبه شبکه (Cloudinary بومی)",
+                "type": "زیرساخت وب و بهینه‌سازی مدیا (Media Optimization API)",
+                "desc": "وب‌سرویسی که توسعه‌دهندگان فقط URL تصویر را پاس می‌دهند و سرویس آن را در پرواز به WebP/AVIF تبدیل و فشرده کرده، واترمارک می‌زند و با کش ردیس تحویل می‌دهد (کاهش ۷۰٪ پهنای باند سرور و لود زیر ۱۰۰ میلی‌ثانیه).",
+                "tech": "پایتون (libvips / Pillow) یا Go + ردیس (ساخت در ۳ روز)",
+                "ref_url": "https://cloudinary.com",
+                "ref_name": "Cloudinary / Images.weserv",
+                "traction": "غول میلیارد دلاری کلادیناری | هزاران سایت از وسرو استفاده می‌کنند",
+                "revenue": "ده‌ها میلیون دلار سالانه",
+                "market_ir": "فروشگاه‌های اینترنتی با هاست‌های پرهزینه ایرانی و مشکل لود کند عکس‌های محصولات",
+                "growth": "معرفی به ادمین‌های ۵ فروشگاه ووکامرس پربازدید با بنچمارک سرعت قبل و بعد",
+                "potential": "۶۰ سایت × ۱۵۰ تا ۳۰۰ هزارتومان = ۹ تا ۱۸ میلیون تومان/ماه",
+                "ice": "۲۹/۳۰"
+            },
+            {
+                "id": "3",
+                "slug": "web-change-price-alert",
+                "name": "اکستنشن هوشمند پایش تغییرات قیمت رقبا و موجودی کالا (Visualping بومی)",
+                "type": "ابزار پایش خودکار صفحات وب (Web Change Monitoring Tool)",
+                "desc": "ابزاری که کاربر هر بخش از هر صفحه‌ای در وب (قیمت یک کالا در سایت رقیب، موجود شدن کنسول بازی، تغییر تعرفه) را با ماوس انتخاب می‌کند و ربات هر ۱۰ دقیقه آن را چک کرده و به محض تغییر، پیامک یا هشدار تلگرامی می‌فرستد.",
+                "tech": "اکستنشن کروم + ورکر پایتون (Playwright / BeautifulSoup) (ساخت در ۳ روز)",
+                "ref_url": "https://visualping.io",
+                "ref_name": "Visualping / Distill.io",
+                "traction": "+۲ میلیون کاربر در جهان | درآمد سالانه بیش از ۵ میلیون دلار",
+                "revenue": "+۵ میلیون دلار سالانه",
+                "market_ir": "خریداران کالا، فروشندگان مارکت‌پلیس‌ها و تحلیلگران بازار قطعات کامپیوتر و طلا",
+                "growth": "ویدیو مقایسه سرعت اطلاع‌رسانی ربات نسبت به بقیه در زمان نوسان قیمت",
+                "potential": "۱۰۰ کاربر فعال × ۹۰ تا ۱۸۰ هزارتومان = ۹ تا ۱۸ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            }
+        ]
+    },
+    8: {
+        "title": "ایده‌های هفته دوم - روز دوم (Customer Success & DevSecOps)",
+        "week": 2,
+        "day_of_week": 2,
+        "items": [
+            {
+                "id": "1",
+                "slug": "in-app-micro-feedback-widget",
+                "name": "پلتفرم نظرسنجی سبک رضایت مشتری CSAT و NPS ایموجی داخل سایت",
+                "type": "ابزار سنجش تجربه مشتری (Customer Feedback SaaS)",
+                "desc": "ویجت مینیمال ۲ کیلوبایتی که پایین وب‌سایت‌ها ظاهر می‌شود و با ۳ ایموجی و یک باکس تک‌خطی نظر مشتری را می‌گیرد و فوراً در بات تلگرام به مدیر سایت نشان می‌دهد.",
+                "tech": "Next.js + ویجت سبک وانیلا JS + بات تلگرام (ساخت در ۲ روز)",
+                "ref_url": "https://feedback.fish",
+                "ref_name": "Feedback Fish / Survicate",
+                "traction": "+۵۰ هزار وب‌سایت در جهان | درآمد ماهانه +۳۰ هزار دلار برای سازنده مستقل",
+                "revenue": "+۴۰۰ هزار دلار سالانه",
+                "market_ir": "وب‌سایت‌های ارائه‌دهنده خدمات، صرافی‌ها و سس‌های ایرانی",
+                "growth": "نصب رایگان روی ۵ ابزار پرکاربرد ایرانی با گزارش هفتگی",
+                "potential": "۵۰ کاربر × ۱۲۰ هزارتومان = ۶ تا ۱۰ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            },
+            {
+                "id": "2",
+                "slug": "responsive-email-builder-mjml",
+                "name": "سامانه ساخت ایمیل‌های تراکنشی و خبرنامه‌های واکنش‌گرا با درگ‌اند‌دراپ",
+                "type": "ابزار بازاریابی ایمیلی و اتوماسیون (Email Builder Tool)",
+                "desc": "ادیتور بصری تولید خروجی HTML ضد-اسپم سازگار با تمام ایمیل‌کلاینت‌ها (جیمیل، اوتلوک) برای دولوپرها و کسب‌وکارها جهت ارسال فاکتور و اعلان به کاربران.",
+                "tech": "Vue.js / React + پارسر کدهای MJML (ساخت در ۳-۴ روز)",
+                "ref_url": "https://beefree.io",
+                "ref_name": "Beefree / Postcards",
+                "traction": "+۱ میلیون کاربر در جهان | خرید میلیونی شرکت‌های سازمانی",
+                "revenue": "+۱۰ میلیون دلار سالانه",
+                "market_ir": "استارتاپ‌ها و وبلاگ‌نویسانی که ایمیل‌های زشت و ناخوانا در موبایل می‌فرستند",
+                "growth": "ارائه ۱۰ قالب آماده ایمیل فاکتور و تایید ثبت‌نام در گیت‌هاب",
+                "potential": "۷۰ شرکت × ۱۴۰ هزارتومان = ۱۰ میلیون تومان/ماه",
+                "ice": "۲۷/۳۰"
+            },
+            {
+                "id": "3",
+                "slug": "safe-db-migration-verifier",
+                "name": "اسکریپت و داشبورد مهاجرت بدون قطعی دیتابیس و اعتبارسنجی اسکیما",
+                "type": "ابزار دوآپس و پایگاه‌داده (DevSecOps Database Tool)",
+                "desc": "ابزاری برای تیم‌های نرم‌افزاری که قبل از اجرای مایگریشن در دیتابیس، کوئری‌های کند و لاک‌کننده جدول را شناسایی می‌کند و گزارش ریسک را به تلگرام تیم می‌فرستد.",
+                "tech": "پایتون (SQLAlchemy / sqlparse) + کنسول تحت وب (ساخت در ۳ روز)",
+                "ref_url": "https://www.bytebase.com",
+                "ref_name": "Bytebase / Liquibase",
+                "traction": "جذب ۳۰ میلیون دلار سرمایه توسط بایت‌بیس | استاندارد تیم‌های نرم‌افزاری",
+                "revenue": "+۵ میلیون دلار ARR",
+                "market_ir": "تیم‌های توسعه نرم‌افزار و فین‌تک‌های ایرانی با دیتابیس‌های حساس و پرترافیک",
+                "growth": "اشتراک‌گذاری در کامیونیتی جنگو و لاراول ایران با آموزش بهینه‌سازی کوئری",
+                "potential": "۳۰ تیم × ۳۰۰ هزارتومان = ۹ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            }
+        ]
+    },
+    9: {
+        "title": "ایده‌های هفته دوم - روز سوم (Creator & FinTech Tools)",
+        "week": 2,
+        "day_of_week": 3,
+        "items": [
+            {
+                "id": "1",
+                "slug": "creator-bio-landing-store",
+                "name": "پلتفرم ایجاد صفحات فرود بیو لینک چندمنظوره با فروشگاه فایل دانلودی",
+                "type": "ابزار اقتصاد خالقان محتوا (Creator Bio Store)",
+                "desc": "صفحه بیو اینستاگرام فوق‌العاده شیک با ویجت‌های تعاملی، امکان فروش جزوه، پادکست، فایل یا رزرو مشاوره متصل به درگاه پرداخت بانکی شتاب بدون نیاز به سایت جداگانه.",
+                "tech": "Next.js + Tailwind + درگاه زرین‌پال (ساخت در ۳ روز)",
+                "ref_url": "https://bento.me",
+                "ref_name": "Bento.me / Stan Store",
+                "traction": "استان‌استور ماهیانه میلیون‌ها دلار تراکنش ثبت می‌کند | Bento جذب سرمایه توسط Linktree",
+                "revenue": "+۲۰ میلیون دلار ARR",
+                "market_ir": "مدرسان اینستاگرامی، مشاوران کنکور، مربیان ورزشی و گرافیست‌ها",
+                "growth": "طراحی اختصاصی برای ۳ مدرس پرمخاطب در اینستاگرام",
+                "potential": "۱۵۰ کریتور × ۸۰ تا ۱۵۰ هزارتومان = ۱۲ تا ۲۲ میلیون تومان/ماه",
+                "ice": "۲۹/۳۰"
+            },
+            {
+                "id": "2",
+                "slug": "iranian-tax-portal-sync-api",
+                "name": "سامانه تولید خودکار اسناد مالیاتی و تطبیق صورتحساب سامانه مودیان",
+                "type": "فین‌تک حسابداری B2B (Tax Integration API)",
+                "desc": "وب‌سرویس پایتون که فاکتورهای فروشگاه‌های اینترنتی را گرفته و به صورت خودکار به ساختار کلیدهای رمزنگاری‌شده استاندارد سامانه مودیان مالیاتی تبدیل و ارسال می‌کند.",
+                "tech": "FastAPI پایتون + کتابخانه رمزنگاری PKI / X509 (ساخت در ۴ روز)",
+                "ref_url": "https://quaderno.io",
+                "ref_name": "Quaderno / TaxJar",
+                "traction": "تصاحب TaxJar توسط Stripe با مبلغ صدها میلیون دلار",
+                "revenue": "+۳۰ میلیون دلار ARR",
+                "market_ir": "قانون اجباری ارسال صورتحساب به سامانه مودیان برای تمام شرکت‌ها و فروشگاه‌ها",
+                "growth": "ارائه افزونه رایگان اتصال ووکامرس به سامانه مودیان",
+                "potential": "۴۰ شرکت × ۳۵۰ هزارتومان = ۱۴ میلیون تومان/ماه",
+                "ice": "۲۹/۳۰"
+            },
+            {
+                "id": "3",
+                "slug": "css-scan-frontend-inspector",
+                "name": "اکستنشن کروم بررسی و استخراج کدهای ری‌اکت و استایل‌های وب‌سایت‌های دیگر",
+                "type": "ابزار توسعه‌دهندگان فرانت‌اند (DevTools Chrome Extension)",
+                "desc": "ابزاری که با بردن ماوس روی هر المان در هر سایتی، کد کامل CSS/Tailwind، پالت رنگ، فونت و ساختار کامپوننت را در یک کلیک کپی می‌کند.",
+                "tech": "اکستنشن کروم (Manifest V3) + موتور کامپایل استایل (ساخت در ۲-۳ روز)",
+                "ref_url": "https://getcssscan.com",
+                "ref_name": "CSS Scan / Hoverify",
+                "traction": "بیش از ۱.۵ میلیون دلار فروش مستقیم توسط یک برنامه‌نویس مستقل",
+                "revenue": "+۱.۵ میلیون دلار فروش مستقیم",
+                "market_ir": "هزاران طراح وب، برنامه‌نویس فرانت‌اند و فریلنسر ایرانی",
+                "growth": "ویدیوی کوتاه جذاب «چطور استایل دکمه‌های اسنپ را در ۱ ثانیه کپی کنیم»",
+                "potential": "۲۰۰ فروش لایسنس یک‌باره ۹۹ هزارتومانی = ۲۰ میلیون تومان",
+                "ice": "۲۸/۳۰"
+            }
+        ]
+    },
+    10: {
+        "title": "ایده‌های هفته دوم - روز چهارم (Growth, AI & Social Proof)",
+        "week": 2,
+        "day_of_week": 4,
+        "items": [
+            {
+                "id": "1",
+                "slug": "smart-url-shortener-pixel",
+                "name": "سامانه هوشمند کوتاه‌کننده لینک با تارگتینگ و ریتارگتینگ تبلیغاتی",
+                "type": "ابزار مارکتینگ و تحلیل لینک (Marketing URL Shortener SaaS)",
+                "desc": "سیستم ساخت لینک کوتاه با دامنه اختصاصی کاربر، آمار پیشرفته کلیک، تفکیک اپراتور (همراه اول/ایرانسل)، سیستم‌عامل و امکان تزریق خودکار پیکسل ریتارگتینگ یکتانت و گوگل‌ادز.",
+                "tech": "Next.js + Upstash Redis / Postgres (ساخت در ۲-۳ روز)",
+                "ref_url": "https://dub.co",
+                "ref_name": "Dub.co / Bitly",
+                "traction": "پلتفرم Dub.co رتبه ۱ گیت‌هاب و جذب سرمایه میلیون دلاری",
+                "revenue": "+۵ میلیون دلار سالانه",
+                "market_ir": "افیلیت مارکترها، ادمین‌های تلگرامی و آژانس‌های دیجیتال مارکتینگ",
+                "growth": "ارائه به کانال‌های بزرگ تلگرام با دامنه اختصاصی رایگان",
+                "potential": "۸۰ کاربر × ۱۲۰ هزارتومان = ۱۰ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            },
+            {
+                "id": "2",
+                "slug": "llm-prompt-cache-proxy",
+                "name": "پلتفرم پایش و کش‌گذاری پرامپت‌ها و لاگ‌های مدل‌های زبانی LLM",
+                "type": "زیرساخت هوش مصنوعی (AI Observability & Prompt Cache)",
+                "desc": "پراکسی سبک میان برنامه‌های هوش مصنوعی ایرانی و OpenAI/Claude برای کش کردن پرامپت‌های تکراری و کاهش ۷۰٪ هزینه‌های دلاری API و پایش کیفیت پاسخ‌ها.",
+                "tech": "FastAPI پایتون + کش ردیس + داشبورد چارت (ساخت در ۳ روز)",
+                "ref_url": "https://helicone.ai",
+                "ref_name": "Helicone / Langfuse",
+                "traction": "صدها هزار درخواست هوش مصنوعی در روز | جذب سرمایه‌های میلیون دلاری Y Combinator",
+                "revenue": "+۲ میلیون دلار ARR",
+                "market_ir": "استارتاپ‌ها و ربات‌های تلگرامی هوش مصنوعی ایرانی که از هزینه‌های دلاری رنج می‌برند",
+                "growth": "معرفی به توسعه‌دهندگان ۵ بات هوش مصنوعی معروف تلگرام",
+                "potential": "۳۰ استارتاپ × ۲۵۰ تا ۵۰۰ هزارتومان = ۱۰ تا ۱۵ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            },
+            {
+                "id": "3",
+                "slug": "social-proof-fomo-popup",
+                "name": "ویجت اعلان خریدهای لحظه‌ای جهت ترغیب به خرید و سوشال پروف (Fomo بومی)",
+                "type": "ابزار افزایش نرخ تبدیل فروش (Social Proof Widget SaaS)",
+                "desc": "پاپ‌آپ‌های نوتیفیکیشن شیک و غیرمزاحم در گوشه سایت‌های فروشگاهی که می‌گوید «فاطمه از مشهد ۵ دقیقه پیش مانتو سایز ۳۸ را خرید» که اعتماد و تمایل به خرید را تا ۳۵٪ افزایش می‌دهد.",
+                "tech": "اسکریپت جاوااسکریپت سبک + وب‌سرویس پایتون + اتصال به ووکامرس (ساخت در ۲-۳ روز)",
+                "ref_url": "https://usefomo.com",
+                "ref_name": "Fomo.com / Proof",
+                "traction": "+۱۰ هزار فروشگاه اینترنتی فعال در دنیا | سود ماهانه صدها هزار دلار",
+                "revenue": "+۶ میلیون دلار سالانه",
+                "market_ir": "هزاران آنلاین‌شاپ ووکامرسی و اختصاصی نیازمند جلب اعتماد سریع خریداران",
+                "growth": "تست رایگان ۱۴ روزه روی فروشگاه‌های اکسسوری و پوشاک",
+                "potential": "۷۰ فروشگاه × ۱۵۰ هزارتومان = ۱۰.۵ میلیون تومان/ماه",
+                "ice": "۲۹/۳۰"
+            }
+        ]
+    },
+    11: {
+        "title": "ایده‌های هفته دوم - روز پنجم (Productivity & Cloud Micro-Tools)",
+        "week": 2,
+        "day_of_week": 5,
+        "items": [
+            {
+                "id": "1",
+                "slug": "pdf-cloud-processing-api",
+                "name": "پلتفرم ابری تبدیل فرمت و ادغام فایل‌های PDF با API برای دولوپرها",
+                "type": "میکروسرویس پردازش اسناد (Document Processing API SaaS)",
+                "desc": "وب‌سرویس و داشبورد پرسرعت ادغام، فشرده‌سازی، افزودن واترمارک، رمزنگاری و تبدیل فایل‌های PDF بدون قطعی و بدون محدودیت‌های سایت‌های خارجی.",
+                "tech": "پایتون (PyMuPDF / pdfme) + ورکر صف با Celery (ساخت در ۳ روز)",
+                "ref_url": "https://www.ilovepdf.com",
+                "ref_name": "ILovePDF / Stirling-PDF",
+                "traction": "۲۰۰ میلیون کاربر فعال ماهانه | فروش لایسنس و اشتراک میلیون دلاری",
+                "revenue": "+۱۰ میلیون دلار سالانه",
+                "market_ir": "دفاتر اسناد رسمی، وکلا، دانشگاهیان و تیم‌های اداری و مالی شرکت‌ها",
+                "growth": "سئوی ابزارهای تبدیل محبوب (ادغام پی‌دی‌اف، فشرده‌سازی پی‌دی‌اف)",
+                "potential": "فروش اشتراک و تبلیغات = ۱۲ تا ۲۰ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            },
+            {
+                "id": "2",
+                "slug": "backend-dependency-vulnerability-scanner",
+                "name": "سامانه ارزیابی امنیت و اسکن آسیب‌پذیری پکیج‌های پایتون و نودجی‌اس",
+                "type": "ابزار امنیت نرم‌افزار (DevSecOps Dependency Scanner)",
+                "desc": "اسکنر خودکار ریپازیتوری‌های گیت‌هاب/گیت‌لب که پکیج‌های ناامن یا تاریخ‌گذشته بک‌اند را پیدا کرده و راهکار پچ کردن را همراه با گزارش PDF به مدیر فنی ارسال می‌کند.",
+                "tech": "پایتون (pip-audit / npm audit wrapper) + قالب گزارش‌ساز HTML (ساخت در ۳ روز)",
+                "ref_url": "https://snyk.io",
+                "ref_name": "Snyk.io / Socket.dev",
+                "traction": "ارزش‌گذاری چند میلیارد دلاری شرکت Snyk",
+                "revenue": "+۱۰۰ میلیون دلار ARR",
+                "market_ir": "شرکت‌های پیمانکار فناوری، استارتاپ‌ها و بانک‌ها با الزام تست نفوذ",
+                "growth": "اسکن امنیتی رایگان برای ۱۰ پروژه عمومی متن‌باز ایرانی در گیت‌هاب",
+                "potential": "۲۰ شرکت × ۴۰۰ هزارتومان = ۸ تا ۱۲ میلیون تومان/ماه",
+                "ice": "۲۷/۳۰"
+            },
+            {
+                "id": "3",
+                "slug": "telegram-vip-membership-billing",
+                "name": "بات مدیریت حق عضویت و کانال‌های VIP تلگرام با تمدید خودکار",
+                "type": "ابزار مانیتایز کانال‌های تلگرامی (Telegram Subscription Bot)",
+                "desc": "ربات هوشمند مدیریت اشتراک کانال‌های سیگنال، آموزشی و تخصصی تلگرام با اتصال به درگاه پرداخت ریالی، صدور لینک یک‌بار مصرف عضویت و کیک کردن خودکار کاربر بعد از پایان تاریخ اشتراک.",
+                "tech": "پایتون (Aiogram / Pyrogram) + درگاه پرداخت شتاب (ساخت در ۳-۴ روز)",
+                "ref_url": "https://invitemember.com",
+                "ref_name": "InviteMember / Telegram VIP",
+                "traction": "مدیریت صدها هزار کانال پولی در سراسر جهان با کارمزد تراکنش",
+                "revenue": "+۳ میلیون دلار سالانه",
+                "market_ir": "هزاران کانال سیگنال ارزدیجیتال، بورس، آموزش زبان و مشاوره‌های کنکور",
+                "growth": "کارمزد رایگان برای ۵ ادمین کانال با بالای ۱۰ هزار ممبر",
+                "potential": "کارمزد ۵٪ از اشتراک‌ها یا پلن ماهانه ۱۸۰ هزارتومان = ۱۵ تا ۲۵ میلیون/ماه",
+                "ice": "۲۹/۳۰"
+            }
+        ]
+    },
+    12: {
+        "title": "ایده‌های هفته دوم - روز ششم (Technical SEO & Feature Management)",
+        "week": 2,
+        "day_of_week": 6,
+        "items": [
+            {
+                "id": "1",
+                "slug": "technical-seo-broken-links-crawler",
+                "name": "پلتفرم مانیتورینگ سلامت صفحات و لینک‌های شکسته سئو (Sitechecker بومی)",
+                "type": "ابزار سئو تکنیکال (SEO Technical Health SaaS)",
+                "desc": "خزشگر خودکار روزانه صفحات سایت‌ها برای کشف خطاهای 404، ریدایرکت‌های لوپ، تگ‌های کنونیکال ناقص و افت سرعت صفحات و هشدار سریع در پیام‌رسان‌ها به وب‌مسترها.",
+                "tech": "کراولر پایتون Asyncio (Scrapy / aiohttp) + داشبورد گزارش (ساخت در ۳ روز)",
+                "ref_url": "https://sitechecker.pro",
+                "ref_name": "Sitechecker.pro / Screaming Frog",
+                "traction": "میلیون‌ها دلار درآمد سالانه از اشتراک ماهیانه آژانس‌های سئو",
+                "revenue": "+۴ میلیون دلار سالانه",
+                "market_ir": "آژانس‌های دیجیتال مارکتینگ و فروشگاه‌های دارای هزاران صفحه محصول",
+                "growth": "اسکن رایگان و ارائه لیست لینک‌های خراب به ۵ سایت خبری بزرگ",
+                "potential": "۵۰ وب‌سایت × ۱۸۰ هزارتومان = ۹ تا ۱۵ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            },
+            {
+                "id": "2",
+                "slug": "feature-flags-ab-testing-sdk",
+                "name": "سامانه مدیریت فیچر فلگ و A/B تست سبک برای دولوپرها (Flagsmith بومی)",
+                "type": "ابزار مدیریت انتشار نرم‌افزار (Feature Flags Micro-SaaS)",
+                "desc": "سرویس سبک فعال/غیرفعال کردن قابلیت‌های جدید نرم‌افزار برای کاربران خاص یا درصدی از ترافیک بدون نیاز به دپلوی مجدد کدها با SDK ساده تک‌خطی.",
+                "tech": "FastAPI + وب‌ساکت یا Redis PubSub + SDK پایتون/JS (ساخت در ۳ روز)",
+                "ref_url": "https://flagsmith.com",
+                "ref_name": "Flagsmith / GrowthBook",
+                "traction": "ترند روز مهندسی نرم‌افزار و جایگزین شرکت چندمیلیارد دلاری LaunchDarkly",
+                "revenue": "+۳ میلیون دلار ARR",
+                "market_ir": "تیم‌های فنی اسنپ، دیجی‌کالا و شرکت‌های سس ایرانی نیازمند تست تدریجی فیچرها",
+                "growth": "SDK متن‌باز در گیت‌هاب و آموزش در رویدادهای نرم‌افزاری",
+                "potential": "۲۵ تیم × ۳۰۰ هزارتومان = ۷.۵ تا ۱۲ میلیون تومان/ماه",
+                "ice": "۲۷/۳۰"
+            },
+            {
+                "id": "3",
+                "slug": "persian-ai-tools-curated-directory",
+                "name": "دایرکتوری ابزارهای کاربردی هوش مصنوعی ایرانی با ثبت پروموت‌شده",
+                "type": "دایرکتوری تخصصی و رسانه فناوری (Curated AI Directory)",
+                "desc": "پایگاه جامع معرفی ابزارهای AI فارسی و خارجی برای کاربران ایرانی با مدل درآمدی ثبت پروموت‌شده، تبلیغات بنری و معرفی ابزارهای هوش مصنوعی برتر.",
+                "tech": "Next.js + دیتابیس Supabase/PostgreSQL (ساخت در ۲ روز)",
+                "ref_url": "https://theresanaiforthat.com",
+                "ref_name": "TheresAnAIForThat.com",
+                "traction": "+۳ میلیون بازدید ماهانه و درآمد ماهانه بیش از ۵۰ هزار دلار از تبلیغات و اسپانسرینگ",
+                "revenue": "+۶۰۰ هزار دلار سالانه",
+                "market_ir": "عطش بالای کاربران و کسب‌وکارهای ایرانی برای پیدا کردن ابزارهای مناسب هوش مصنوعی",
+                "growth": "ثبت رایگان ۵۰ ابزار پرطرفدار و جذب ترافیک سئو با کوئری‌های مقایسه‌ای",
+                "potential": "ثبت جایگاه ویژه اسپانسری = ۸ تا ۱۵ میلیون تومان/ماه",
+                "ice": "۲۸/۳۰"
+            }
+        ]
     }
 }
 
-def determine_today_day_number():
+def get_cycle_status(target_date: datetime = None) -> dict:
     """
-    Determines which day of the idea sprint we are on.
-    Day 1 was 2026-10-12 / 2026-10-17.
-    Uses calendar day offset modulo 6 (days 1 to 6) so ideas rotate continuously.
+    Computes current week, day of week, review flag, and idea index.
+    Cycle:
+      - Days 1 to 6 of each week: 3 Fresh Ideas (Ideas 1 to 18 for Week 1, 19 to 36 for Week 2, etc.)
+      - Day 7 of each week: Weekly Review / Shortlist Evaluation Session!
     """
-    anchor_date = datetime(2026, 10, 16)
-    today = datetime.now()
-    diff = (today.date() - anchor_date.date()).days
+    if target_date is None:
+        target_date = datetime.now()
+    
+    diff = (target_date.date() - ANCHOR_DATE.date()).days
     if diff <= 0:
-        day_num = 1
+        total_day = 1
     else:
-        day_num = ((diff - 1) % 6) + 1
-    return day_num
+        total_day = diff
+        
+    week_num = ((total_day - 1) // 7) + 1
+    day_in_week = ((total_day - 1) % 7) + 1  # 1 through 7
+    is_review_day = (day_in_week == 7)
+    
+    # Idea index strictly monotonically increases across weeks:
+    # Week 1, Days 1..6 -> Indices 1..6
+    # Week 2, Days 1..6 -> Indices 7..12
+    # Week 3, Days 1..6 -> Indices 13..18
+    idea_index = (week_num - 1) * 6 + day_in_week
 
-def generate_markdown(day_num: int, date_str: str) -> str:
-    bundle = IDEAS_ROSTER.get(day_num, IDEAS_ROSTER[1])
+    return {
+        "total_day": total_day,
+        "week_num": week_num,
+        "day_in_week": day_in_week,
+        "is_review_day": is_review_day,
+        "idea_index": idea_index
+    }
+
+def get_idea_bundle(idea_index: int) -> dict:
+    if idea_index in IDEAS_ROSTER:
+        return IDEAS_ROSTER[idea_index]
+    # Fallback to last available bundle if index exceeds predefined roster
+    max_idx = max(IDEAS_ROSTER.keys())
+    return IDEAS_ROSTER[max_idx]
+
+def get_idea_by_day_and_id(day_index: int, item_id: str) -> dict:
+    bundle = IDEAS_ROSTER.get(day_index)
+    if bundle:
+        for it in bundle["items"]:
+            if str(it["id"]) == str(item_id):
+                return it
+    # Search all rosters
+    for b in IDEAS_ROSTER.values():
+        for it in b["items"]:
+            if str(it["id"]) == str(item_id):
+                return it
+    return None
+
+def load_sent_tracker() -> list:
+    if os.path.exists(SENT_TRACKER_PATH):
+        try:
+            with open(SENT_TRACKER_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
+
+def record_sent_bundle(date_str: str, idea_index: int, items: list):
+    sent = load_sent_tracker()
+    for it in items:
+        record = {
+            "date": date_str,
+            "idea_index": idea_index,
+            "id": it["id"],
+            "slug": it.get("slug", ""),
+            "name": it["name"]
+        }
+        if not any(s.get("slug") == it.get("slug") and it.get("slug") for s in sent):
+            sent.append(record)
+    with open(SENT_TRACKER_PATH, "w", encoding="utf-8") as f:
+        json.dump(sent, f, indent=2, ensure_ascii=False)
+
+def generate_markdown(bundle: dict, date_str: str) -> str:
     md = f"# {bundle['title']} - {date_str}\n\n---\n\n"
     for item in bundle["items"]:
         md += f"### 💡 ایده {item['id']}: {item['name']}\n"
@@ -343,8 +772,7 @@ def generate_markdown(day_num: int, date_str: str) -> str:
         md += f"* **📈 امتیاز ICE:** {item['ice']}\n\n---\n\n"
     return md
 
-def generate_telegram_message(day_num: int, date_str: str) -> str:
-    bundle = IDEAS_ROSTER.get(day_num, IDEAS_ROSTER[1])
+def generate_telegram_message(bundle: dict, date_str: str) -> str:
     tg = f"📊 <b>{bundle['title']} | {date_str}</b>\n\n"
     for item in bundle["items"]:
         tg += f"━━━━━━━━━━━━━━━━━━━━\n"
@@ -360,42 +788,55 @@ def generate_telegram_message(day_num: int, date_str: str) -> str:
         tg += f"💵 <b>پتانسیل درآمدی:</b> <b>{item['potential']}</b>\n\n"
     return tg
 
-def run_daily_curation(force_day: int = None, force_send: bool = False):
+def run_daily_curation(force_index: int = None, force_review: bool = False, force_send: bool = False) -> bool:
     today = datetime.now().strftime("%Y-%m-%d")
-    archive_file = os.path.join(notifier.ARCHIVE_DIR, f"{today}.md")
+    cycle = get_cycle_status()
     
-    # Check if already sent today (to prevent duplicate messages from multiple cron triggers)
-    if os.path.exists(archive_file) and not force_send and force_day is None:
+    print(f"Cycle Status for {today}: Total Day {cycle['total_day']}, Week {cycle['week_num']}, Day in Week {cycle['day_in_week']}, Review Day: {cycle['is_review_day']}")
+
+    # Check if Day 7 Weekly Review is requested or scheduled
+    if force_review or (cycle["is_review_day"] and force_index is None):
+        print(f"Triggering Day 7 Weekly Review for Week {cycle['week_num']}...")
+        return weekly_digest.run_weekly_review(week_num=cycle["week_num"])
+
+    # Determine which idea bundle to deliver
+    idea_index = force_index if force_index is not None else cycle["idea_index"]
+    bundle = get_idea_bundle(idea_index)
+    
+    archive_file = os.path.join(notifier.ARCHIVE_DIR, f"{today}.md")
+    if os.path.exists(archive_file) and not force_send and force_index is None:
         print(f"Ideas for today ({today}) have already been sent and archived. Skipping duplicate run.")
         return True
-        
-    day_num = force_day if force_day is not None else determine_today_day_number()
-    bundle = IDEAS_ROSTER.get(day_num, IDEAS_ROSTER[1])
-    
-    print(f"Executing daily curation for Date: {today} (Day {day_num}: {bundle['title']})")
-    
-    md_content = generate_markdown(day_num, today)
-    tg_content = generate_telegram_message(day_num, today)
-    
+
+    print(f"Executing daily curation for Date: {today} (Bundle Index {idea_index}: {bundle['title']})")
+
+    md_content = generate_markdown(bundle, today)
+    tg_content = generate_telegram_message(bundle, today)
+
     # 1. Save to local archive
     archive_file = notifier.save_to_archive(md_content)
     print(f"Archive saved at: {archive_file}")
-    
+
     # 2. Trigger Windows Toast Notification (if on Windows)
-    notifier.send_windows_toast(f"ایده‌های روز {day_num} 🚀", f"۳ ایده تازه با مارکت ریسرچ کامل به تلگرام ارسال شد.")
-    
+    notifier.send_windows_toast(
+        f"ایده‌های تازه 🚀 (هفته {cycle['week_num']} - روز {cycle['day_in_week']})",
+        f"۳ ایده تازه با مارکت ریسرچ کامل به تلگرام ارسال شد."
+    )
+
     # 3. Send to Telegram with interactive buttons
     buttons = []
     for item in bundle["items"]:
-        btn_text = f"⭐️ پسندیدم: {item['id']}. {item['name'][:30]}"
-        cb_data = f"like_{today}_{day_num}_{item['id']}"
+        clean_name = item['name'].split('(')[0].strip()
+        btn_text = f"⭐️ پسندیدم: {item['id']}. {clean_name[:26]}"
+        cb_data = f"like_{today}_{idea_index}_{item['id']}"
         buttons.append([{"text": btn_text, "callback_data": cb_data}])
     buttons.append([{"text": "📋 مشاهده لیست منتخب‌های این هفته", "callback_data": "view_shortlist"}])
-    
+
     reply_markup = {"inline_keyboard": buttons}
-    
     tg_ok = notifier.send_telegram(tg_content, reply_markup=reply_markup)
+    
     if tg_ok:
+        record_sent_bundle(today, idea_index, bundle["items"])
         print("SUCCESS: Telegram message delivered to PV!")
         return True
     else:
@@ -403,5 +844,9 @@ def run_daily_curation(force_day: int = None, force_send: bool = False):
         return False
 
 if __name__ == "__main__":
-    force = int(sys.argv[1]) if len(sys.argv) > 1 else None
-    run_daily_curation(force)
+    if "--review" in sys.argv:
+        run_daily_curation(force_review=True)
+    elif len(sys.argv) > 1 and sys.argv[1].isdigit():
+        run_daily_curation(force_index=int(sys.argv[1]), force_send=True)
+    else:
+        run_daily_curation()

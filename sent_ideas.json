@@ -1,0 +1,149 @@
+[
+  {
+    "date": "2026-10-24",
+    "idea_index": 7,
+    "id": "1",
+    "slug": "visual-bug-reporter-widget",
+    "name": "سرویس بازخورد و ثبت اشکال تصویری در وب‌سایت‌ها (BugHerd / Marker.io)"
+  },
+  {
+    "date": "2026-10-24",
+    "idea_index": 7,
+    "id": "2",
+    "slug": "smart-image-cdn-resizer",
+    "name": "پلتفرم فشرده‌سازی و تبدیل هوشمند تصاویر در لبه شبکه (Cloudinary بومی)"
+  },
+  {
+    "date": "2026-10-24",
+    "idea_index": 7,
+    "id": "3",
+    "slug": "web-change-price-alert",
+    "name": "اکستنشن هوشمند پایش تغییرات قیمت رقبا و موجودی کالا (Visualping بومی)"
+  },
+  {
+    "date": "2026-10-17",
+    "idea_index": 1,
+    "id": "1",
+    "slug": "digikala-basalam-analyzer",
+    "name": "اکستنشن کروم تحلیل هوشمند دیجی‌کالا و باسلام"
+  },
+  {
+    "date": "2026-10-17",
+    "idea_index": 1,
+    "id": "2",
+    "slug": "programmatic-seo-calculators",
+    "name": "وب‌سایت ابزارهای محاسباتی سئو-محور (Programmatic SEO)"
+  },
+  {
+    "date": "2026-10-17",
+    "idea_index": 1,
+    "id": "3",
+    "slug": "messaging-order-automation",
+    "name": "اکستنشن اتوماسیون سفارش‌ها در پیام‌رسان‌ها"
+  },
+  {
+    "date": "2026-10-18",
+    "idea_index": 2,
+    "id": "1",
+    "slug": "telegram-eitaa-form-builder",
+    "name": "فرم‌ساز مدرن با اعلان لحظه‌ای در تلگرام و ایتا"
+  },
+  {
+    "date": "2026-10-18",
+    "idea_index": 2,
+    "id": "2",
+    "slug": "uptime-payment-gateway-monitor",
+    "name": "سامانه پایش آپ‌تایم و درگاه پرداخت بانکی"
+  },
+  {
+    "date": "2026-10-18",
+    "idea_index": 2,
+    "id": "3",
+    "slug": "ai-tech-content-repurposer",
+    "name": "بازتولید هوشمند محتوای تخصصی تک برای لینکدین/تلگرام"
+  },
+  {
+    "date": "2026-10-19",
+    "idea_index": 3,
+    "id": "1",
+    "slug": "in-app-changelog-widget",
+    "name": "ویجت و صفحه اعلان تغییرات محصول (In-App Changelog)"
+  },
+  {
+    "date": "2026-10-19",
+    "idea_index": 3,
+    "id": "2",
+    "slug": "dynamic-og-image-api",
+    "name": "وب‌سرویس تولید خودکار تصاویر داینامیک اشتراک‌گذاری (OG Image API)"
+  },
+  {
+    "date": "2026-10-19",
+    "idea_index": 3,
+    "id": "3",
+    "slug": "telegram-db-backup-tool",
+    "name": "سامانه بک‌آپ‌گیری خودکار سرور روی فضای رایگان تلگرام"
+  },
+  {
+    "date": "2026-10-20",
+    "idea_index": 4,
+    "id": "1",
+    "slug": "swagger-interactive-docs",
+    "name": "سامانه داکیومنت تعاملی و مدرن API از روی Swagger (Scalar / Mintlify)"
+  },
+  {
+    "date": "2026-10-20",
+    "idea_index": 4,
+    "id": "2",
+    "slug": "freelancer-invoice-pay-link",
+    "name": "پلتفرم فاکتور آنلاین و لینک پرداخت برای فریلنسرها (Invoice & Pay)"
+  },
+  {
+    "date": "2026-10-20",
+    "idea_index": 4,
+    "id": "3",
+    "slug": "b2b-lead-scraper-maps",
+    "name": "استخراج‌کننده هوشمند اطلاعات تماس و لید تجاری از گوگل‌مپ و اینستاگرام"
+  },
+  {
+    "date": "2026-10-21",
+    "idea_index": 5,
+    "id": "1",
+    "slug": "iranian-apps-webhook-ipaas",
+    "name": "پلتفرم وب‌هوک و اتوماسیون جریان‌کاری برای ابزارهای ایرانی (Zapier بومی)"
+  },
+  {
+    "date": "2026-10-21",
+    "idea_index": 5,
+    "id": "2",
+    "slug": "developer-software-license-manager",
+    "name": "سامانه مدیریت لایسنس و قفل نرم‌افزاری توسعه‌دهندگان (Keygen بومی)"
+  },
+  {
+    "date": "2026-10-21",
+    "idea_index": 5,
+    "id": "3",
+    "slug": "customer-video-testimonial-collector",
+    "name": "پلتفرم جمع‌آوری و ویجت ویدیویی رضایت خریدار (Social Proof Video SaaS)"
+  },
+  {
+    "date": "2026-10-22",
+    "idea_index": 6,
+    "id": "1",
+    "slug": "ugc-unboxing-marketplace",
+    "name": "مارکت‌پلیس ویدیوی تست محصول و آنباکسینگ UGC برای فروشگاه‌ها"
+  },
+  {
+    "date": "2026-10-22",
+    "idea_index": 6,
+    "id": "2",
+    "slug": "shetab-online-booking-calendar",
+    "name": "سامانه رزرو وقت مشاوره آنلاین با پرداخت شتاب قبل از جلسه"
+  },
+  {
+    "date": "2026-10-22",
+    "idea_index": 6,
+    "id": "3",
+    "slug": "remote-tech-job-directory",
+    "name": "دایرکتوری تخصصی فرصت‌های شغلی ریموت و فریلنسری سئومحور"
+  }
+]

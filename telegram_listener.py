@@ -107,16 +107,14 @@ def run_listener():
                             if len(parts) >= 3 and parts[1].isdigit():
                                 d_num = int(parts[1])
                                 it_id = parts[2]
-                                if d_num in daily_curator.IDEAS_ROSTER:
-                                    for it in daily_curator.IDEAS_ROSTER[d_num]["items"]:
-                                        if it["id"] == it_id:
-                                            info = {
-                                                "title": it["name"],
-                                                "type": it["type"],
-                                                "url": it["ref_url"],
-                                                "summary": f"{it['desc']} | {it['potential']}"
-                                            }
-                                            break
+                                it = daily_curator.get_idea_by_day_and_id(d_num, it_id)
+                                if it:
+                                    info = {
+                                        "title": it["name"],
+                                        "type": it["type"],
+                                        "url": it["ref_url"],
+                                        "summary": f"{it['desc']} | {it['potential']}"
+                                    }
                             
                             if not info:
                                 idx = parts[-1]

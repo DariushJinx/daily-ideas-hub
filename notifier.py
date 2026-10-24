@@ -71,21 +71,28 @@ def send_telegram(text: str, parse_mode: str = "HTML", reply_markup: dict = None
     if reply_markup:
         payload["reply_markup"] = reply_markup
     
-    try:
-        data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            res_data = json.loads(resp.read().decode())
-            return res_data.get("ok", False)
-    except Exception as e:
-        print(f"Telegram Error: {e}")
-        return False
+    import time
+    for attempt in range(1, 4):
+        try:
+            data = json.dumps(payload).encode("utf-8")
+            req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=25) as resp:
+                res_data = json.loads(resp.read().decode())
+                return res_data.get("ok", False)
+        except Exception as e:
+            print(f"Telegram Attempt {attempt} failed: {e}")
+            if attempt < 3:
+                time.sleep(2)
+            else:
+                return False
 
-def save_to_archive(content: str) -> str:
+def save_to_archive(content: str, filename: str = None) -> str:
     """Save the day's ideas to a markdown file in ideas_archive/."""
     os.makedirs(ARCHIVE_DIR, exist_ok=True)
-    today = datetime.now().strftime("%Y-%m-%d")
-    filepath = os.path.join(ARCHIVE_DIR, f"{today}.md")
+    if not filename:
+        today = datetime.now().strftime("%Y-%m-%d")
+        filename = f"{today}.md"
+    filepath = os.path.join(ARCHIVE_DIR, filename)
     
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
