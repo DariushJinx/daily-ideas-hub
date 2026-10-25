@@ -145,5 +145,26 @@
     "id": "3",
     "slug": "remote-tech-job-directory",
     "name": "دایرکتوری تخصصی فرصت‌های شغلی ریموت و فریلنسری سئومحور"
+  },
+  {
+    "date": "2026-10-25",
+    "idea_index": 8,
+    "id": "1",
+    "slug": "in-app-micro-feedback-widget",
+    "name": "پلتفرم نظرسنجی سبک رضایت مشتری CSAT و NPS ایموجی داخل سایت"
+  },
+  {
+    "date": "2026-10-25",
+    "idea_index": 8,
+    "id": "2",
+    "slug": "responsive-email-builder-mjml",
+    "name": "سامانه ساخت ایمیل‌های تراکنشی و خبرنامه‌های واکنش‌گرا با درگ‌اند‌دراپ"
+  },
+  {
+    "date": "2026-10-25",
+    "idea_index": 8,
+    "id": "3",
+    "slug": "safe-db-migration-verifier",
+    "name": "اسکریپت و داشبورد مهاجرت بدون قطعی دیتابیس و اعتبارسنجی اسکیما"
   }
 ]
