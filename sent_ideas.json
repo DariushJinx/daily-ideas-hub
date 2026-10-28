@@ -208,5 +208,26 @@
     "id": "3",
     "slug": "social-proof-fomo-popup",
     "name": "ویجت اعلان خریدهای لحظه‌ای جهت ترغیب به خرید و سوشال پروف (Fomo بومی)"
+  },
+  {
+    "date": "2026-10-28",
+    "idea_index": 11,
+    "id": "1",
+    "slug": "pdf-cloud-processing-api",
+    "name": "پلتفرم ابری تبدیل فرمت و ادغام فایل‌های PDF با API برای دولوپرها"
+  },
+  {
+    "date": "2026-10-28",
+    "idea_index": 11,
+    "id": "2",
+    "slug": "backend-dependency-vulnerability-scanner",
+    "name": "سامانه ارزیابی امنیت و اسکن آسیب‌پذیری پکیج‌های پایتون و نودجی‌اس"
+  },
+  {
+    "date": "2026-10-28",
+    "idea_index": 11,
+    "id": "3",
+    "slug": "telegram-vip-membership-billing",
+    "name": "بات مدیریت حق عضویت و کانال‌های VIP تلگرام با تمدید خودکار"
   }
 ]
