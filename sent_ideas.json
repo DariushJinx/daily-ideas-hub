@@ -229,5 +229,26 @@
     "id": "3",
     "slug": "telegram-vip-membership-billing",
     "name": "بات مدیریت حق عضویت و کانال‌های VIP تلگرام با تمدید خودکار"
+  },
+  {
+    "date": "2026-10-29",
+    "idea_index": 12,
+    "id": "1",
+    "slug": "technical-seo-broken-links-crawler",
+    "name": "پلتفرم مانیتورینگ سلامت صفحات و لینک‌های شکسته سئو (Sitechecker بومی)"
+  },
+  {
+    "date": "2026-10-29",
+    "idea_index": 12,
+    "id": "2",
+    "slug": "feature-flags-ab-testing-sdk",
+    "name": "سامانه مدیریت فیچر فلگ و A/B تست سبک برای دولوپرها (Flagsmith بومی)"
+  },
+  {
+    "date": "2026-10-29",
+    "idea_index": 12,
+    "id": "3",
+    "slug": "persian-ai-tools-curated-directory",
+    "name": "دایرکتوری ابزارهای کاربردی هوش مصنوعی ایرانی با ثبت پروموت‌شده"
   }
 ]
